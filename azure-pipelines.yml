@@ -1,0 +1,25 @@
+name: Bicep-DataFactory-DataLake-Databricks
+
+trigger:
+- dev
+
+variables:
+  resourceGroupName: 'MattiasGrängesSbx'
+  location: 'swedencentral'
+  azureSubscription: 'Applai Dev/Test(37018ae3-4f1d-43a2-a10e-b1b3dc09f440)'
+  resourcePrefix: 'bicep'
+
+pool:
+  vmImage: ubuntu-latest
+
+stages:
+- stage: Build
+  jobs:
+  - job: Build
+    steps:
+    - task: AzureCLI@2
+      inputs:
+        azureSubscription: azureSubscription
+        scriptType: 'pscore'
+        scriptLocation: 'inlineScript'
+        inlineScript: 'az bicep build --file /src/main.bicep'
